@@ -27,27 +27,8 @@ jobs:
           sudo dpkg -i google-chrome-stable_current_amd64.deb || true
           sudo apt-get install -f -y
 
-      - name: Start MySQL container
-        run: |
-          docker run -d --name mysql-deadline \
-            -e MYSQL_ROOT_PASSWORD=root \
-            -e MYSQL_DATABASE=app \
-            -e MYSQL_USER=app_user \
-            -e MYSQL_PASSWORD=app_pass \
-            -p 3306:3306 \
-            -v ./schema.sql:/docker-entrypoint-initdb.d/1-schema.sql \
-            mysql:8.0 --default-authentication-plugin=mysql_native_password
-
-      - name: Start App container
-        run: |
-          docker run -d --name app-deadline \
-            -p 9999:9999 \
-            --link mysql-deadline:mysql \
-            -e DB_URL=jdbc:mysql://mysql:3306/app?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true \
-            -e DB_USER=app_user \
-            -e DB_PASS=app_pass \
-            -v ./app-deadline.jar:/app/app-deadline.jar \
-            eclipse-temurin:11-jre java -jar /app/app-deadline.jar
+      - name: Start containers with docker-compose
+        run: docker compose up -d
 
       - name: Waiting for containers start
         run: sleep 30
