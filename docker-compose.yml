@@ -12,12 +12,18 @@ services:
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
     command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   app:
     image: eclipse-temurin:11-jre
     container_name: app-deadline
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     volumes:
       - ./app-deadline.jar:/app/app-deadline.jar
     environment:

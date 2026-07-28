@@ -27,13 +27,21 @@ jobs:
           sudo dpkg -i google-chrome-stable_current_amd64.deb || true
           sudo apt-get install -f -y
 
-      - name: Start containers with docker-compose
+      - name: Start containers
         run: docker compose up -d
+
+      - name: Check containers
+        run: |
+          docker ps
+          docker logs app-deadline
 
       - name: Waiting for containers start
         run: sleep 30
 
-      - name: Run tests with Maven
+      - name: Test connection
+        run: curl -v http://localhost:9999
+
+      - name: Run tests
         run: mvn test -Dselenide.headless=true
 
       - name: Upload test results
