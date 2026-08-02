@@ -17,19 +17,3 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-  app:
-    image: eclipse-temurin:11-jre
-    container_name: app-deadline
-    depends_on:
-      mysql:
-        condition: service_healthy
-    volumes:
-      - ./app-deadline.jar:/app/app-deadline.jar
-    environment:
-      DB_URL: jdbc:mysql://mysql:3306/app?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      DB_USER: app_user
-      DB_PASS: app_pass
-    command: java -jar /app/app-deadline.jar
-    ports:
-      - "9999:9999"
