@@ -25,9 +25,6 @@ jobs:
       - name: Waiting for containers start
         run: sleep 30
 
-      - name: Test connection
-        run: curl -v http://localhost:9999
-
       - name: Run tests
         run: mvn test -Dselenide.headless=true
 
