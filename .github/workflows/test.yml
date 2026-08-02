@@ -19,14 +19,6 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget
-          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo dpkg -i google-chrome-stable_current_amd64.deb || true
-          sudo apt-get install -f -y
-
       - name: Start containers
         run: docker compose up -d
 
