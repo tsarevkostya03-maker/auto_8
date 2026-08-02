@@ -25,5 +25,5 @@ jobs:
       - name: Waiting for containers start
         run: sleep 30
 
-      - name: Run tests
-        run: mvn test -Dselenide.headless=true
+      - name: Run tests with Gradle
+        run: ./gradlew test
