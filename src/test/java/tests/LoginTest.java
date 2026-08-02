@@ -33,24 +33,16 @@ public class LoginTest extends BaseTest {
                 .setPassword("qwerty123")
                 .clickSubmit();
 
-        System.out.println("Waiting for verification page...");
-        Selenide.sleep(2000);
-
         VerificationPage verificationPage = new VerificationPage();
+        
         String code = DbHelper.getLatestAuthCode("vasya");
         System.out.println("Auth code from DB: " + code);
-
-        if (code == null) {
-            System.out.println("WARNING: Auth code is null! Check if user exists in DB.");
-            // Проверим пользователей в БД
-            String userId = DbHelper.getUserId("vasya");
-            System.out.println("User ID for vasya: " + userId);
-        }
-
         assertNotNull(code, "Auth code should not be null");
 
         verificationPage.setVerificationCode(code)
                 .clickSubmit();
+
+        verificationPage.isDashboardDisplayed();
 
         // Проверяем, что нет ошибки
         String error = verificationPage.getErrorMessage();
