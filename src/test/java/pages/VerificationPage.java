@@ -9,6 +9,10 @@ public class VerificationPage {
     private final SelenideElement submitButton = $("[data-test-id='action-verify']");
     private final SelenideElement errorNotification = $("[data-test-id='error-notification']");
 
+    public VerificationPage() {
+        codeField.shouldBe(Condition.visible);
+    }
+
     public VerificationPage setVerificationCode(String code) {
         codeField.setValue(code);
         return this;
@@ -16,7 +20,6 @@ public class VerificationPage {
 
     public void clickSubmit() {
         submitButton.click();
-        Selenide.sleep(2000);
     }
 
     public String getErrorMessage() {
