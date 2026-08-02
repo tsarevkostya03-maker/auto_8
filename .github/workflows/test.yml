@@ -22,11 +22,6 @@ jobs:
       - name: Start containers
         run: docker compose up -d
 
-      - name: Check containers
-        run: |
-          docker ps
-          docker logs app-deadline
-
       - name: Waiting for containers start
         run: sleep 30
 
