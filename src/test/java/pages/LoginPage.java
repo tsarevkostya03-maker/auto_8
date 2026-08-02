@@ -12,7 +12,7 @@ public class LoginPage {
 
     public LoginPage() {
         Selenide.open("http://localhost:9999");
-        Selenide.sleep(1000);
+        loginField.shouldBe(Condition.visible);
     }
 
     public LoginPage setLogin(String login) {
@@ -27,7 +27,6 @@ public class LoginPage {
 
     public VerificationPage clickSubmit() {
         submitButton.click();
-        Selenide.sleep(1000);
         return new VerificationPage();
     }
 
