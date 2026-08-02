@@ -40,16 +40,11 @@ public class DbHelper {
 
     public static String getLatestAuthCode(String login) {
         String sql = "SELECT a.code FROM auth_codes a " +
-                "JOIN users u ON a.user_id = u.id " +
-                "WHERE u.login = ? " +
-                "ORDER BY a.created DESC LIMIT 1";
+                     "JOIN users u ON a.user_id = u.id " +
+                     "WHERE u.login = ? " +
+                     "ORDER BY a.created DESC LIMIT 1";
         try (Connection conn = getConnection()) {
-            return runner.query(conn, sql, rs -> {
-                if (rs.next()) {
-                    return rs.getString("code");
-                }
-                return null;
-            }, login);
+            return runner.query(conn, sql, new ScalarHandler<>(), login);
         } catch (SQLException e) {
             throw new RuntimeException("Error getting auth code", e);
         }
@@ -58,12 +53,7 @@ public class DbHelper {
     public static String getUserId(String login) {
         String sql = "SELECT id FROM users WHERE login = ?";
         try (Connection conn = getConnection()) {
-            return runner.query(conn, sql, rs -> {
-                if (rs.next()) {
-                    return rs.getString("id");
-                }
-                return null;
-            }, login);
+            return runner.query(conn, sql, new ScalarHandler<>(), login);
         } catch (SQLException e) {
             throw new RuntimeException("Error getting user id", e);
         }
