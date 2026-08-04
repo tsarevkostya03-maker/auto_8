@@ -26,4 +26,8 @@ jobs:
         run: sleep 30
 
       - name: Run tests with Gradle
+<<<<<<< HEAD
         run: ./gradlew test
+=======
+        run: ./gradlew test
+>>>>>>> 25babdc7b21623a26ac669c572b54946864b74ba

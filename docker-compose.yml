@@ -17,6 +17,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+<<<<<<< HEAD
 
   app:
     image: eclipse-temurin:11-jre
@@ -34,3 +35,5 @@ services:
     ports:
       - "9999:9999"
     restart: unless-stopped
+=======
+>>>>>>> 25babdc7b21623a26ac669c572b54946864b74ba

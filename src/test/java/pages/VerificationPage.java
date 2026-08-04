@@ -19,6 +19,10 @@ public class VerificationPage {
         System.out.println("Verification page loaded");
     }
 
+    public VerificationPage() {
+        codeField.shouldBe(Condition.visible);
+    }
+
     public VerificationPage setVerificationCode(String code) {
         codeField.setValue(code);
         return this;
@@ -26,8 +30,11 @@ public class VerificationPage {
 
     public void clickSubmit() {
         submitButton.click();
+<<<<<<< HEAD
         // Ждем загрузки после клика
         Selenide.sleep(2000);
+=======
+>>>>>>> 25babdc7b21623a26ac669c572b54946864b74ba
     }
 
     public boolean isDashboardDisplayed() {

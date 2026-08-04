@@ -34,11 +34,16 @@ public class LoginTest extends BaseTest {
                 .setPassword("qwerty123")
                 .clickSubmit();
 
+<<<<<<< HEAD
         // Ждем появления страницы верификации
         Selenide.sleep(3000);
 
         VerificationPage verificationPage = new VerificationPage();
 
+=======
+        VerificationPage verificationPage = new VerificationPage();
+        
+>>>>>>> 25babdc7b21623a26ac669c572b54946864b74ba
         String code = DbHelper.getLatestAuthCode("vasya");
         System.out.println("Auth code from DB: " + code);
         assertNotNull(code, "Auth code should not be null");
@@ -46,6 +51,7 @@ public class LoginTest extends BaseTest {
         verificationPage.setVerificationCode(code)
                 .clickSubmit();
 
+<<<<<<< HEAD
         // Ждем загрузки дашборда
         Selenide.sleep(3000);
 
@@ -63,6 +69,15 @@ public class LoginTest extends BaseTest {
         }
 
         assertTrue(verificationPage.isDashboardDisplayed(), "Dashboard should be displayed");
+=======
+        verificationPage.isDashboardDisplayed();
+
+        // Проверяем, что нет ошибки
+        String error = verificationPage.getErrorMessage();
+        System.out.println("Error message: " + error);
+        assertTrue(error.isEmpty() || !error.contains("Неверный"),
+                "Should not have error: " + error);
+>>>>>>> 25babdc7b21623a26ac669c572b54946864b74ba
         System.out.println("Test passed");
     }
 
