@@ -14,10 +14,7 @@ public class LoginPage {
     public LoginPage() {
         Selenide.open("http://localhost:9999");
         loginField.shouldBe(Condition.visible);
-<<<<<<< HEAD
         System.out.println("Login page loaded");
-=======
->>>>>>> 25babdc7b21623a26ac669c572b54946864b74ba
     }
 
     public LoginPage setLogin(String login) {
@@ -32,10 +29,8 @@ public class LoginPage {
 
     public void clickSubmit() {
         submitButton.click();
-<<<<<<< HEAD
-=======
-        return new VerificationPage();
->>>>>>> 25babdc7b21623a26ac669c572b54946864b74ba
+        // Не возвращаем VerificationPage здесь, так как
+        // переход происходит только при успешном входе
     }
 
     public String getErrorMessage() {

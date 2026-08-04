@@ -3,6 +3,7 @@ package pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 import static com.codeborne.selenide.Selenide.$;
 
 public class VerificationPage {
@@ -13,14 +14,10 @@ public class VerificationPage {
     private final SelenideElement dashboard = $("[data-test-id='dashboard']");
     private final SelenideElement dashboardByClass = $(".App_dashboard, .dashboard, .main-content");
 
+    // Оставляем один конструктор с ожиданием
     public VerificationPage() {
-        // Ждем появления поля для кода
         codeField.shouldBe(Condition.visible);
         System.out.println("Verification page loaded");
-    }
-
-    public VerificationPage() {
-        codeField.shouldBe(Condition.visible);
     }
 
     public VerificationPage setVerificationCode(String code) {
@@ -30,11 +27,8 @@ public class VerificationPage {
 
     public void clickSubmit() {
         submitButton.click();
-<<<<<<< HEAD
         // Ждем загрузки после клика
         Selenide.sleep(2000);
-=======
->>>>>>> 25babdc7b21623a26ac669c572b54946864b74ba
     }
 
     public boolean isDashboardDisplayed() {
@@ -43,7 +37,7 @@ public class VerificationPage {
         System.out.println("Dashboard exists: " + result);
         if (!result) {
             // Логируем текущий URL для отладки
-            System.out.println("Current URL: " + com.codeborne.selenide.WebDriverRunner.url());
+            System.out.println("Current URL: " + WebDriverRunner.url());
         }
         return result;
     }
