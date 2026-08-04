@@ -33,3 +33,4 @@ services:
     command: java -jar /app/app-deadline.jar
     ports:
       - "9999:9999"
+    restart: unless-stopped

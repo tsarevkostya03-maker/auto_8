@@ -1,10 +1,11 @@
 package tests;
 
-import com.codeborne.selenide.Selenide;
 import helpers.DbHelper;
 import org.junit.jupiter.api.*;
 import pages.LoginPage;
 import pages.VerificationPage;
+import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.Selenide;
 
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,30 +34,35 @@ public class LoginTest extends BaseTest {
                 .setPassword("qwerty123")
                 .clickSubmit();
 
-        System.out.println("Waiting for verification page...");
-        Selenide.sleep(2000);
+        // Ждем появления страницы верификации
+        Selenide.sleep(3000);
 
         VerificationPage verificationPage = new VerificationPage();
+
         String code = DbHelper.getLatestAuthCode("vasya");
         System.out.println("Auth code from DB: " + code);
-
-        if (code == null) {
-            System.out.println("WARNING: Auth code is null! Check if user exists in DB.");
-            // Проверим пользователей в БД
-            String userId = DbHelper.getUserId("vasya");
-            System.out.println("User ID for vasya: " + userId);
-        }
-
         assertNotNull(code, "Auth code should not be null");
 
         verificationPage.setVerificationCode(code)
                 .clickSubmit();
 
-        // Проверяем, что нет ошибки
-        String error = verificationPage.getErrorMessage();
-        System.out.println("Error message: " + error);
-        assertTrue(error.isEmpty() || !error.contains("Неверный"),
-                "Should not have error: " + error);
+        // Ждем загрузки дашборда
+        Selenide.sleep(3000);
+
+        // Проверяем URL для отладки (безопасно)
+        try {
+            System.out.println("Current URL: " + WebDriverRunner.url());
+            String pageText = Selenide.$("body").text();
+            if (pageText.length() > 100) {
+                System.out.println("Page text preview: " + pageText.substring(0, Math.min(100, pageText.length())));
+            } else {
+                System.out.println("Page text: " + pageText);
+            }
+        } catch (Exception e) {
+            System.out.println("Error getting page info: " + e.getMessage());
+        }
+
+        assertTrue(verificationPage.isDashboardDisplayed(), "Dashboard should be displayed");
         System.out.println("Test passed");
     }
 
@@ -69,9 +75,14 @@ public class LoginTest extends BaseTest {
                 .setPassword("wrongpassword")
                 .clickSubmit();
 
+        // Ждем появления сообщения об ошибке
+        Selenide.sleep(2000);
+
         String error = loginPage.getErrorMessage();
-        System.out.println("Error message: " + error);
-        assertTrue(error.length() > 0, "Should show error message");
+        System.out.println("Error message: '" + error + "'");
+
+        // Проверяем, что сообщение об ошибке содержит текст
+        assertTrue(error != null && !error.trim().isEmpty(), "Should show error message");
         System.out.println("Test passed");
     }
 
@@ -84,9 +95,13 @@ public class LoginTest extends BaseTest {
                 .setPassword("password")
                 .clickSubmit();
 
+        // Ждем появления сообщения об ошибке
+        Selenide.sleep(2000);
+
         String error = loginPage.getErrorMessage();
-        System.out.println("Error message: " + error);
-        assertTrue(error.length() > 0, "Should show error message");
+        System.out.println("Error message: '" + error + "'");
+
+        assertTrue(error != null && !error.trim().isEmpty(), "Should show error message");
         System.out.println("Test passed");
     }
 }

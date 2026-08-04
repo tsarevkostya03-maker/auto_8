@@ -1,6 +1,8 @@
 package helpers;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -44,12 +46,7 @@ public class DbHelper {
                 "WHERE u.login = ? " +
                 "ORDER BY a.created DESC LIMIT 1";
         try (Connection conn = getConnection()) {
-            return runner.query(conn, sql, rs -> {
-                if (rs.next()) {
-                    return rs.getString("code");
-                }
-                return null;
-            }, login);
+            return runner.query(conn, sql, new ScalarHandler<>(), login);
         } catch (SQLException e) {
             throw new RuntimeException("Error getting auth code", e);
         }
@@ -58,12 +55,7 @@ public class DbHelper {
     public static String getUserId(String login) {
         String sql = "SELECT id FROM users WHERE login = ?";
         try (Connection conn = getConnection()) {
-            return runner.query(conn, sql, rs -> {
-                if (rs.next()) {
-                    return rs.getString("id");
-                }
-                return null;
-            }, login);
+            return runner.query(conn, sql, new ScalarHandler<>(), login);
         } catch (SQLException e) {
             throw new RuntimeException("Error getting user id", e);
         }

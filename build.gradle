@@ -14,8 +14,9 @@ dependencies {
     testImplementation 'com.codeborne:selenide:6.19.1'
     testImplementation 'mysql:mysql-connector-java:8.0.33'
     testImplementation 'commons-dbutils:commons-dbutils:1.8.1'
-    testImplementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
     testImplementation 'org.slf4j:slf4j-simple:2.0.9'
+    // Добавляем WebDriverManager
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
 }
 
 tasks.withType(JavaCompile) {
@@ -24,8 +25,6 @@ tasks.withType(JavaCompile) {
 
 test {
     useJUnitPlatform()
-    systemProperties = [
-            'selenide.headless': 'false',
-            'selenide.browser': 'chrome'
-    ]
+    systemProperty 'selenide.headless', System.getProperty('selenide.headless')
+    systemProperty 'chromeoptions.prefs', System.getProperty('chromeoptions.prefs', "profile.password_manager_leak_detection=false")
 }
