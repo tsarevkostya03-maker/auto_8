@@ -15,7 +15,6 @@ dependencies {
     testImplementation 'mysql:mysql-connector-java:8.0.33'
     testImplementation 'commons-dbutils:commons-dbutils:1.8.1'
     testImplementation 'org.slf4j:slf4j-simple:2.0.9'
-    // Добавляем WebDriverManager
     testImplementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
 }
 
@@ -27,8 +26,4 @@ test {
     useJUnitPlatform()
     systemProperty 'selenide.headless', System.getProperty('selenide.headless')
     systemProperty 'chromeoptions.prefs', System.getProperty('chromeoptions.prefs', "profile.password_manager_leak_detection=false")
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 25babdc7b21623a26ac669c572b54946864b74ba
